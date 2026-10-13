@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project tracker · SolutionsAsService</title>
+<meta name="description" content="Live status of SolutionsAsService projects, rebuilt from GitHub every 6 hours.">
+<style>body{margin:0;padding:24px clamp(14px,4vw,40px);background:#f6f7f9}@media (prefers-color-scheme:dark){body{background:#0d1117}}main{max-width:1200px;margin:0 auto}</style>
+<script src="widget.js" defer></script>
+</head>
+<body>
+<main>
+<!-- ?group=Autheo filters, ?compact hides detail: the same page works as an iframe embed -->
+<project-tracker src="data/status.json"></project-tracker>
+<noscript>This page needs JavaScript. Raw data: <a href="data/status.json">data/status.json</a></noscript>
+</main>
+<script>
+const q = new URLSearchParams(location.search), el = document.querySelector("project-tracker");
+if (q.get("group")) el.setAttribute("group", q.get("group"));
+if (q.has("compact")) el.setAttribute("compact", "");
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+# Owner-edited ledger. Same field names as the PMDAA ledger (ThothDivision/PMDAA skills/pmdaa/references/ledger-format.md),
+# plus: group, progress (0-100, manual; overrides the GitHub-milestone value), show_private_details (default false).
+# THIS FILE IS PUBLIC. For private projects write only text a stranger may read (name, one_line, state, rag).
+# Private projects are published as name + group + one_line + state + rag (+ progress) only, unless
+# show_private_details: true AND the TRACKER_TOKEN secret is set. See README.md "Privacy".
+portfolio: Projects          # default group for projects without one
+title: SolutionsAsService projects
+north_star: Ship the Autheo RWA stack, the hardware behind it and the agent tooling that builds it, with evidence for every status.
+stale_days: 14               # no commit in this many days = stale
+updated: 2026-10-13
+projects:
+# ---------------- Autheo ----------------
+- id: agent-env
+  name: Autheo Agent Environment
+  group: Autheo
+  repo: SolutionsAsService/autheo-agent-environment
+  visibility: public
+  one_line: 'Reference trust layer for agents: did:key identities, delegation chains (mandates), policy decisions, signed receipts.'
+  north_star: Anyone can give an agent bounded authority and anyone can verify what it did, offline, without a registry.
+  state: doing
+  rag: green
+  rag_evidence: Reference environment checks green on 0.6.0 (PMDAA ledger 2026-10-13).
+  milestone:
+    id: Phase A
+    name: Contracts and product decisions
+    exit_test: Platform owners approve versioned contracts (identity/credential, Dev Portal, Marketplace, L1); unknowns explicit.
+  next_actions:
+  - {action: 'Verify DEX interop end to end: mandate -> unsigned order -> human signature -> receipt in audit chain', owner: SolutionsAsService, status: doing}
+  - {action: Approval object bound to one request digest so escalate resolves to a human signature, owner: SolutionsAsService, status: todo}
+  depends_on: []
+- id: real-dex
+  name: Autheo RWA stack build (real-dex)
+  group: Autheo
+  repo: ThothDivision/autheo-real-dex
+  visibility: private
+  one_line: Non-custodial RWA stack build (tokenization + DEX + interop); M0 walking skeleton in progress.
+  state: doing
+  rag: green
+  depends_on: [taas-plan, dex-plan]
+- id: dex-plan
+  name: Autheo DEX plan
+  group: Autheo
+  repo: ThothDivision/autheo-dex-plan
+  visibility: public
+  one_line: 'DEX planning site: open + institutional tiers, DvP on Autheo L1, cross-chain via L0 Mesh, phases 0-5.'
+  north_star: A venue where eligibility is enforced on every fill and settlement is atomic on Autheo L1.
+  state: doing
+  rag: amber
+  rag_evidence: Roadmap phases have gates, not stranger-runnable exit tests yet.
+  milestone:
+    id: Phase 0
+    name: Design
+    exit_test: Market-structure spec, policy-hook interface, settlement design and intent format reviewed with counsel and a venue partner.
+  next_actions:
+  - {action: 'Sync with taas-plan: Autheo DEX is one venue; router interoperates with external DEXs', owner: SolutionsAsService, status: todo}
+  - {action: Turn phase gates into exit tests (threshold + who runs it), owner: SolutionsAsService, status: todo}
+  depends_on: [taas-plan]
+- id: taas-plan
+  name: Autheo TaaS plan
+  group: Autheo
+  repo: ThothDivision/autheo-taas-plan
+  visibility: public
+  one_line: 'Plan of record for tokenization-as-a-service: north star, build plan M0-M6 with exit tests, decisions and risks.'
+  north_star: A bank or issuer can tokenize, distribute and service a real-world asset on Autheo with regulated roles held by licensed partners.
+  state: doing
+  rag: green
+  rag_evidence: Pages deploy green; every BUILD-PLAN milestone carries an exit test.
+  milestone:
+    id: M0-V
+    name: Discovery (business, beside M0)
+    exit_test: Signed LOIs from one cash-leg bank, one issuer and one market maker; 5-person console usability test logged.
+  next_actions:
+  - {action: Record agent trading under mandates as an explicit dependency on agent-env Phase C, owner: SolutionsAsService, status: todo}
+  depends_on: []
+- id: stack
+  name: Autheo Stack (ecosystem map)
+  group: Autheo
+  repo: autheo-os/autheo-stack
+  visibility: public
+  one_line: 'Public ecosystem architecture site: components, honest boundaries, agent/DEX integration, dependency map, staged roadmap.'
+  north_star: One page where a partner can see how the Autheo pieces fit, what is real today and what gate comes next.
+  state: doing
+  rag: amber
+  rag_evidence: No CI on the repo, so nothing re-checks links or render on push.
+  milestone:
+    id: S1
+    name: Ecosystem plan with agent/DEX integration and staged roadmap
+    exit_test: Renders at 390px and 1440px with no overflow; every stage has an exit test and a stop-if; all outbound links 200.
+  next_actions:
+  - {action: 'Add a CI job: link check + HTML parse on push', owner: SolutionsAsService, status: todo}
+  depends_on: [agent-env, taas-plan, dex-plan]
+- id: nfc-wallet
+  name: Autheo NFC Wallet
+  group: Autheo
+  repo: autheo-hardware/NFC-wallet
+  visibility: private
+  one_line: Hardware wallet (NFC/RFID) docs + firmware; v1.1 enclosure.
+  state: doing
+  rag: amber
+  depends_on: []
+- id: asset-track
+  name: Autheo AssetTrack (+ ATN-01 node)
+  group: Autheo
+  repo: autheo-hardware/AUTHEO-ASSET-TRACK
+  visibility: private
+  one_line: Custody-aware asset tracking with the ATN-01 truck RF node concept.
+  state: doing
+  rag: amber
+  depends_on: [agent-env]
+# ---------------- Drones & hardware ----------------
+- id: viewer
+  name: military-display (3D design-review viewer)
+  group: Drones & hardware
+  repo: SolutionsAsService/military-display
+  visibility: private
+  one_line: Private design-review viewer for drone and device 3D models.
+  state: doing
+  rag: green
+  depends_on: []
+- id: river-drone
+  name: River drone
+  group: Drones & hardware
+  repo: SolutionsAsService/river-drone
+  visibility: private
+  one_line: V05 amphibious redesign in progress.
+  state: doing
+  rag: green
+  depends_on: [viewer]
+- id: shadw-drone
+  name: SHADW drone
+  group: Drones & hardware
+  repo: SolutionsAsService/shadw-drone
+  visibility: private
+  one_line: Drone airframe design.
+  state: doing
+  rag: green
+  depends_on: [viewer]
+# ---------------- Agents & tools ----------------
+- id: unified-cad-mcp
+  name: Unified CAD MCP
+  group: Agents & tools
+  repo: SolutionsAsService/unified-CAD-MCP
+  visibility: public
+  one_line: One MCP server for agent CAD work (FreeCAD, KiCad, airframe tools).
+  north_star: An agent can author, inspect and measure real CAD geometry through one tool surface.
+  state: doing
+  rag: green
+  rag_evidence: Seeded 2026-10-13 from repo activity; owner to confirm.
+  depends_on: []
+- id: 3dada
+  name: 3DADA
+  group: Agents & tools
+  repo: SolutionsAsService/3dada
+  visibility: public
+  one_line: 3D Directed Ambition Design Agent skill with an independent critic panel.
+  north_star: Agent-made 3D models that hold up to measured checks and expert critique.
+  state: doing
+  rag: green
+  rag_evidence: Seeded 2026-10-13 from repo activity; owner to confirm.
+  depends_on: [unified-cad-mcp]
+- id: pmdaa
+  name: PMDAA
+  group: Agents & tools
+  repo: ThothDivision/PMDAA
+  visibility: public
+  one_line: Planning + management agent skill; keeps a live-checked portfolio ledger (the format this tracker reads).
+  north_star: Every project status is backed by live evidence, not memory.
+  state: doing
+  rag: green
+  rag_evidence: Seeded 2026-10-13 from repo activity; owner to confirm.
+  depends_on: []
+- id: ponytail
+  name: Ponytail
+  group: Agents & tools
+  repo: SolutionsAsService/ponytail
+  visibility: public
+  one_line: Makes an AI agent code like the laziest senior dev in the room.
+  state: doing
+  rag: green
+  rag_evidence: Seeded 2026-10-13 from repo activity; owner to confirm.
+  depends_on: []
+- id: jarvis
+  name: JARVIS
+  group: Agents & tools
+  repo: SolutionsAsService/JARVIS
+  visibility: public
+  one_line: AEO stack that connects agent skills, MCP servers and engines so they stay updatable.
+  state: doing
+  rag: green
+  rag_evidence: Seeded 2026-10-13 from repo activity; owner to confirm.
+  depends_on: []
+- id: project-tracker
+  name: Project tracker
+  group: Agents & tools
+  repo: SolutionsAsService/project-tracker
+  visibility: public
+  one_line: This site; rebuilds every 6 hours from projects.yaml + GitHub.
+  state: doing
+  rag: green
+  rag_evidence: Pages workflow builds and deploys this page.
+  milestone:
+    id: v1
+    name: Live tracker + UBM plugin contract
+    exit_test: Live URL returns 200 with every project card; status.json validates against docs/UBM-PLUGIN.md.
+  depends_on: []
+# ---------------- Business systems ----------------
+- id: ubm
+  name: Ultimate Business Machines
+  group: Business systems
+  repo: PrometheusIntelligence/ULTIMATE-BUSINESS-MACHINES
+  visibility: private
+  one_line: Business operations platform; this tracker is planned as a plugin.
+  state: doing
+  rag: green
+  depends_on: []
