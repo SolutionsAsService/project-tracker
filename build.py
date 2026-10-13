@@ -64,6 +64,8 @@ def fetch_live(repo, token):
 
 def project_status(p, group, stale_days, now, tokens):
     p = dict(p, group=p.get("group") or group)
+    if (p.get("repos") or {}).get("public"):  # PMDAA pair: live facts from the public repo; the private one is a name only
+        p["repo"] = p["repos"]["public"]
     private = p.get("visibility", "public") != "public"
     detailed = not private or (p.get("show_private_details") is True and bool(tokens["private"]))
     live = None

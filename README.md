@@ -39,6 +39,9 @@ Add an entry to `projects.yaml` and push:
   progress: 40                    # optional, 0-100; omit to use the GitHub milestone
 ```
 
+A project with one public and one private repo (PMDAA pair) uses `repos: {public: owner/name, private: owner/name}`
+instead of `repo:`. Live facts come from the public repo; the private repo is shown by name only.
+
 ## Privacy
 
 - The workflow's `GITHUB_TOKEN` can only read **public** repos.

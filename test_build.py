@@ -49,6 +49,15 @@ class T(unittest.TestCase):
         data, _ = run([{"id": "a", "name": "A", "repo": "o/a", "progress": 10}], {"public": "g", "private": None})
         self.assertEqual(data["projects"][0]["progress_source"], "manual")
 
+    def test_pair_reads_public_repo_and_names_private_only(self):
+        pair = {"id": "x", "name": "X", "visibility": "public", "repos": {"public": "o/plan", "private": "o/build"}}
+        data, f = run([pair], {"public": "g", "private": "t"})
+        f.assert_called_once_with("o/plan", "g")
+        self.assertEqual(data["projects"][0]["repos"], {"public": "o/plan", "private": "o/build"})
+        data, f = run([dict(pair, visibility="private", repos={"private": "o/build"})], {"public": "g", "private": "t"})
+        f.assert_not_called()
+        self.assertNotIn("repos", data["projects"][0])
+
     def test_ci_summary(self):
         c = lambda s, k="completed": {"status": k, "conclusion": s}
         self.assertEqual(build.ci_summary([]), "none")

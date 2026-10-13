@@ -19,7 +19,7 @@ projects:
   north_star: Anyone can give an agent bounded authority and anyone can verify what it did, offline, without a registry.
   state: doing
   rag: green
-  rag_evidence: Reference environment checks green on 0.6.0 (PMDAA ledger 2026-10-13).
+  rag_evidence: Reference environment checks green on 0.7.0 (7f3d981, 2026-10-13).
   milestone:
     id: Phase A
     name: Contracts and product decisions
@@ -28,49 +28,23 @@ projects:
   - {action: 'Verify DEX interop end to end: mandate -> unsigned order -> human signature -> receipt in audit chain', owner: SolutionsAsService, status: doing}
   - {action: Approval object bound to one request digest so escalate resolves to a human signature, owner: SolutionsAsService, status: todo}
   depends_on: []
-- id: real-dex
-  name: Autheo RWA stack build (real-dex)
+- id: rwa
+  name: Autheo RWA stack (TaaS + DEX)
   group: Autheo
-  repo: ThothDivision/autheo-real-dex
-  visibility: private
-  one_line: Non-custodial RWA stack build (tokenization + DEX + interop); M0 walking skeleton in progress.
+  repos: {public: ThothDivision/autheo-taas-plan, private: ThothDivision/autheo-real-dex}   # PMDAA pair; private = name only
+  visibility: public
+  one_line: 'Tokenization + DEX + interop for real-world assets: public plan of record (TaaS plan, DEX plan under dex/) and a private build.'
+  north_star: Pick an asset and a chain, Autheo handles the rest; non-custodial, regulated roles held by licensed partners.
   state: doing
   rag: green
-  depends_on: [taas-plan, dex-plan]
-- id: dex-plan
-  name: Autheo DEX plan
-  group: Autheo
-  repo: ThothDivision/autheo-dex-plan
-  visibility: public
-  one_line: 'DEX planning site: open + institutional tiers, DvP on Autheo L1, cross-chain via L0 Mesh, phases 0-5.'
-  north_star: A venue where eligibility is enforced on every fill and settlement is atomic on Autheo L1.
-  state: doing
-  rag: amber
-  rag_evidence: Roadmap phases have gates, not stranger-runnable exit tests yet.
-  milestone:
-    id: Phase 0
-    name: Design
-    exit_test: Market-structure spec, policy-hook interface, settlement design and intent format reviewed with counsel and a venue partner.
-  next_actions:
-  - {action: 'Sync with taas-plan: Autheo DEX is one venue; router interoperates with external DEXs', owner: SolutionsAsService, status: todo}
-  - {action: Turn phase gates into exit tests (threshold + who runs it), owner: SolutionsAsService, status: todo}
-  depends_on: [taas-plan]
-- id: taas-plan
-  name: Autheo TaaS plan
-  group: Autheo
-  repo: ThothDivision/autheo-taas-plan
-  visibility: public
-  one_line: 'Plan of record for tokenization-as-a-service: north star, build plan M0-M6 with exit tests, decisions and risks.'
-  north_star: A bank or issuer can tokenize, distribute and service a real-world asset on Autheo with regulated roles held by licensed partners.
-  state: doing
-  rag: green
-  rag_evidence: Pages deploy green; every BUILD-PLAN milestone carries an exit test.
+  rag_evidence: Plan site deploy green (DEX plan merged into dex/ 2026-10-13); every BUILD-PLAN milestone carries an exit test.
   milestone:
     id: M0-V
     name: Discovery (business, beside M0)
     exit_test: Signed LOIs from one cash-leg bank, one issuer and one market maker; 5-person console usability test logged.
   next_actions:
   - {action: Record agent trading under mandates as an explicit dependency on agent-env Phase C, owner: SolutionsAsService, status: todo}
+  - {action: 'DEX plan (dex/): turn phase gates into exit tests (threshold + who runs it)', owner: SolutionsAsService, status: todo}
   depends_on: []
 - id: stack
   name: Autheo Stack (ecosystem map)
@@ -88,7 +62,7 @@ projects:
     exit_test: Renders at 390px and 1440px with no overflow; every stage has an exit test and a stop-if; all outbound links 200.
   next_actions:
   - {action: 'Add a CI job: link check + HTML parse on push', owner: SolutionsAsService, status: todo}
-  depends_on: [agent-env, taas-plan, dex-plan]
+  depends_on: [agent-env, rwa]
 - id: nfc-wallet
   name: Autheo NFC Wallet
   group: Autheo
